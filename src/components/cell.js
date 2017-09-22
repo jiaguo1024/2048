@@ -8,7 +8,7 @@ export class Cell extends React.Component {
     render() {
         return (
             <div className="cell">
-                {this.props.value !== 0 && <Tile value={this.props.value}/>}
+                <Tile info={this.props.tile}/>
             </div>
         );
     }

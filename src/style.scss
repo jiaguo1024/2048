@@ -1,6 +1,7 @@
 $board-color: saddlebrown;
 $board-width: 440px;
 $cell-width: 100px;
+$cell-margin: 4px;
 
 .game {
   margin: auto;
@@ -10,7 +11,7 @@ $cell-width: 100px;
 .board {
   background-color: #bbada0;
   border-radius: 4px;
-  padding: 4px;
+  padding: $cell-margin;
   font-size: 0; // to remove the stupid space between elements with display: inline block
 }
 
@@ -19,7 +20,7 @@ $cell-width: 100px;
   width: $cell-width;
   height: $cell-width;
   background-color: rgba(238, 228, 218, 0.35);
-  margin: 4px;
+  margin: $cell-margin;
   text-align: center;
   vertical-align: middle;
   line-height: $cell-width;
@@ -34,18 +35,43 @@ $cell-width: 100px;
   position: relative;
 }
 
-@keyframes from-2-to-0 {
-  from {
-    left: 0;
-  }
-  to {
-    left: -($cell-width + 8) * 2;
+@for $i from 0 through 3 {
+  @for $j from 0 through 3 {
+    $row-animation: from-row-#{$i}-to-#{$j};
+    $column-animation: from-column-#{$i}-to-#{$j};
+
+    @if $i != $j {
+      .#{$column-animation} {
+        animation-name: #{$column-animation};
+        animation-fill-mode: forwards;
+        animation-duration: 0.2s;
+      }
+      .#{$row-animation} {
+        animation-name: #{$row-animation};
+        animation-fill-mode: forwards;
+        animation-duration: 0.2s;
+      }
+      @keyframes #{$column-animation} {
+        from {
+          left: ($i - $j) * ($cell-width + 2 * $cell-margin);
+        }
+        to {
+          left: 0;
+        }
+      }
+      @keyframes #{$row-animation} {
+        from {
+          top: ($i - $j) * ($cell-width + 2 * $cell-margin);
+        }
+        to {
+          top: 0;
+        }
+      }
+    }
+
   }
 }
 
-.from-2-to-0 {
-  animation: from-2-to-0 0.2s;
-}
 
 @keyframes new {
   from {
@@ -57,6 +83,12 @@ $cell-width: 100px;
 }
 
 .new {
+  animation-name: new;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+.merged {
   animation-name: new;
   animation-delay: 0.2s;
   animation-duration: 0.2s;

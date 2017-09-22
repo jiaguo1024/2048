@@ -4,38 +4,18 @@
 import React from 'react';
 import {Board} from './board';
 import {ControlPanel} from './control-panel';
+import {TileInfo} from './tile';
 
 export class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {data: initData(4, 4)};
-        this.moveUp = this.moveUp.bind(this);
-        this.moveDown = this.moveDown.bind(this);
-        this.moveLeft = this.moveLeft.bind(this);
-        this.moveRight = this.moveRight.bind(this);
+        this.move = this.move.bind(this);
     }
 
-    moveUp() {
+    move(direction) {
         let data = this.state.data.slice();
-        data = mergeUp(data);
-        this.postProcessing(data);
-    }
-
-    moveDown() {
-        let data = this.state.data.slice();
-        data = mergeDown(data);
-        this.postProcessing(data);
-    }
-
-    moveLeft() {
-        let data = this.state.data.slice();
-        data = mergeLeft(data);
-        this.postProcessing(data);
-    }
-
-    moveRight() {
-        let data = this.state.data.slice();
-        data = mergeRight(data);
+        data = merge(data, direction);
         this.postProcessing(data);
     }
 
@@ -43,7 +23,7 @@ export class Game extends React.Component {
         let result = [];
         for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[0].length; j++) {
-                if (data[i][j] === 0) { result.push([i, j]); }
+                if (data[i][j].value === 0) { result.push([i, j]); }
             }
         }
         return result;
@@ -71,22 +51,20 @@ export class Game extends React.Component {
 
     addTile(index, data) {
         let [i, j] = index[Math.floor(Math.random() * index.length)];
-        data[i][j] = getNewTile();
+        addNewTile(data, i, j);
     }
-
 
     render() {
         return (
             <div className="game">
                 <Board data={this.state.data}/>
-                <ControlPanel moveUp={this.moveUp} moveDown={this.moveDown}
-                              moveLeft={this.moveLeft} moveRight={this.moveRight}/>
+                <ControlPanel move={this.move}/>
             </div>);
     }
 }
 
-function getNewTile() {
-    return Math.random() < 0.9 ? 2 : 4;
+function addNewTile(data, row, column) {
+    return data[row][column] = new TileInfo(Math.random() < 0.9 ? 2 : 4, row, column);
 }
 
 function initData(rows, columns) {
@@ -97,58 +75,24 @@ function initData(rows, columns) {
     let data = [];
     for (let i = 0; i < rows; i++) {
         data.push([]);
-        for (let j = 0; j < columns; j++) { data[i].push(0); }
-    }
-    data[Math.floor(x/rows)][x%columns] = getNewTile();
-    data[Math.floor(y/rows)][y%columns] = getNewTile();
-    return data;
-}
-
-function mergeLeft(data) {
-    for (let i = 0; i < data.length; i++) { data[i] = mergeRowLeft(data[i]); }
-    return data;
-}
-
-
-function mergeRight(data) {
-    reflex(data);
-    mergeLeft(data);
-    reflex(data);
-    return data;
-}
-
-function mergeUp(data) {
-    let result = rotateLeft(data);
-    result = mergeLeft(result);
-    result = rotateRight(result);
-    return result;
-}
-
-function mergeDown(data) {
-    let result = rotateRight(data);
-    result = mergeLeft(result);
-    result = rotateLeft(result);
-    return result;
-}
-
-function reflex(data) {
-    for (let i = 0; i < data.length; i++) {
-        let left = 0, right = data[0].length - 1, temp = 0;
-        while (left < right) {
-            temp = data[i][left];
-            data[i][left] = data[i][right];
-            data[i][right] = temp;
-            left++; right--;
+        for (let j = 0; j < columns; j++) {
+            data[i].push(new TileInfo(0, i, j));
         }
     }
+    addNewTile(data, Math.floor(x/rows), x%columns);
+    addNewTile(data, Math.floor(y/rows), y%columns);
+    return data;
 }
 
-function rotateRight(data) {
-    let result = [];
-    for (let i = 0; i < data[0].length; i++) {
-        let row = [];
-        for (let j = data.length - 1; j >= 0 ; j--) { row.push(data[j][i]); }
-        result.push(row);
+function merge(data, direction) {
+    // direction: 0-left, 1-up, 2-right, 3-down
+    let result = data;
+    for (let i = 0; i < direction; i++) {
+        result = rotateLeft(result);
+    }
+    mergeLeft(result);
+    for (let i = direction; i < 4; i++) {
+        result = rotateLeft(result);
     }
     return result;
 }
@@ -163,21 +107,42 @@ function rotateLeft(data) {
     return result;
 }
 
+function mergeLeft(data) {
+    for (let i = 0; i < data.length; i++) { mergeRowLeft(data[i]); }
+}
+
 function mergeRowLeft(row) {
-    let nums = row.filter((i) => i !== 0);
-    let result = nums.length === 1 ? nums.slice() : [];
-    for (let i = 1; i < nums.length;) {
-        if (nums[i-1] !== nums[i]) {
-            result.push(nums[i-1]);
-            if (i === nums.length - 1) { result.push(nums[i]); }
-            i++;
+    for (let i = 0; i < row.length; i++) {
+        row[i].clear();
+        if (row[i].value === 0) continue;
+        let j = i - 1;
+        while (j >= 0 && row[j].value === 0) { // stop if reach bound or reach a tile
+            j--;
         }
-        else {
-            result.push(nums[i] * 2);
-            if (i === nums.length - 2) { result.push(nums[i+1]); }
-            i += 2;
+        if (j === -1) { // reached bound, safe to move to left most slot
+            if (i === 0) continue;
+            row[0].value = row[i].value;
+            row[0].rowFrom = row[i].row;
+            row[0].columnFrom = row[i].column;
+            row[i].value = 0;
+        }
+        else { // reached a tile
+            // merge
+            if (row[j].value === row[i].value && !row[j].merged) {
+                // score += row[j].value;
+                row[j].value += row[i].value;
+                row[j].merged = true;
+                row[j].rowFrom = row[i].row;
+                row[j].columnFrom = row[i].column;
+                row[i].value = 0;
+            } else {
+                if (j++ !== i - 1) { // move to j
+                    row[j].value = row[i].value;
+                    row[j].rowFrom = row[i].row;
+                    row[j].columnFrom = row[i].column;
+                    row[i].value = 0;
+                }
+            }
         }
     }
-    for (let i = result.length; i < row.length; i++) { result.push(0); }
-    return result;
 }

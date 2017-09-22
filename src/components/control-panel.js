@@ -2,7 +2,7 @@
  * Created by Jia on 2017/8/22.
  */
 import React from 'react';
-import {ControlButton} from './control-button';
+import {Button} from './button';
 
 export class ControlPanel extends React.Component {
 
@@ -10,12 +10,12 @@ export class ControlPanel extends React.Component {
         return (
             <div className="control-panel">
                 <div>
-                    <ControlButton value="Up" handleClick={this.props.moveUp}/>
+                    <Button value="Up" direction={1} handleClick={this.props.move}/>
                 </div>
                 <div>
-                    <ControlButton value="Left" handleClick={this.props.moveLeft}/>
-                    <ControlButton value="Down" handleClick={this.props.moveDown}/>
-                    <ControlButton value="Right" handleClick={this.props.moveRight}/>
+                    <Button value="Left" direction={0} handleClick={this.props.move}/>
+                    <Button value="Down" direction={3} handleClick={this.props.move}/>
+                    <Button value="Right" direction={2} handleClick={this.props.move}/>
                 </div>
             </div>
         );

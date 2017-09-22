@@ -9,7 +9,7 @@ export class Row extends React.Component {
         return (
             <div className="row">
                 {this.props.row.map(
-                    (element, i) => <Cell value={element} key={i}/>
+                    (tile, i) => <Cell tile={tile} key={i}/>
                 )}
             </div>
         )
