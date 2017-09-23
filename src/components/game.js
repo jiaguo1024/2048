@@ -57,8 +57,8 @@ export class Game extends React.Component {
     render() {
         return (
             <div className="game">
-                <Board data={this.state.data}/>
                 <ControlPanel move={this.move}/>
+                <Board data={this.state.data}/>
             </div>);
     }
 }

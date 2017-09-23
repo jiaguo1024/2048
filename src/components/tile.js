@@ -9,15 +9,18 @@ export class Tile extends React.Component {
         let info = this.props.info;
         let classes = [];
         if (info.value !== 0) {
-            classes.push("tile tile-" + info.value);
+            classes.push("tile tile-" + info.value + " row-" + info.row + "-column-" + info.column);
             if (info.new) {
                 classes.push("new");
             }
             if (info.merged) {
                 classes.push("merged");
             }
+            if (info.mergeHelper) {
+                classes.push("merge-helper");
+            }
         }
-        if (info.rowFrom !== -1) {
+        if (info.rowFrom !== -1 && !info.merged) {
             if (info.rowFrom !== info.row)
                 classes.push("from-row-" + info.rowFrom + "-to-" + info.row);
             if (info.columnFrom !== info.column)
@@ -40,6 +43,16 @@ export class TileInfo {
         this.columnFrom = -1;
         this.new = true;
         this.merged = false;
+        this.mergeHelper = false;
+    }
+
+    static copy(other) {
+        let result = new TileInfo(other.value, other.row, other.column);
+        result.rowFrom = other.rowFrom;
+        result.columnFrom = other.columnFrom;
+        result.new = other.new;
+        result.merged = other.merged;
+        return result;
     }
 
     clear() {

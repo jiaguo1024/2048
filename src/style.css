@@ -1,0 +1,402 @@
+.game {
+  margin: auto;
+  width: 440px; }
+
+.board {
+  background-color: #bbada0;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 0;
+  position: absolute; }
+
+.cell {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(238, 228, 218, 0.35);
+  margin: 4px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+  border-radius: 3px; }
+
+.tile {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  font-size: 60px;
+  font-weight: bold;
+  position: absolute;
+  z-index: 1;
+  border-radius: 3px; }
+
+.tile.merge-helper {
+  z-index: 0; }
+
+.tile.row-0-column-0 {
+  left: 8px;
+  top: 8px; }
+
+.tile.row-0-column-1 {
+  left: 116px;
+  top: 8px; }
+
+.from-column-0-to-1 {
+  animation-name: from-column-0-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-0-to-1 {
+  animation-name: from-row-0-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-0-to-1 {
+  from {
+    left: 8px; }
+  to {
+    left: 116px; } }
+@keyframes from-row-0-to-1 {
+  from {
+    top: 8px; }
+  to {
+    top: 116px; } }
+.tile.row-0-column-2 {
+  left: 224px;
+  top: 8px; }
+
+.from-column-0-to-2 {
+  animation-name: from-column-0-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-0-to-2 {
+  animation-name: from-row-0-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-0-to-2 {
+  from {
+    left: 8px; }
+  to {
+    left: 224px; } }
+@keyframes from-row-0-to-2 {
+  from {
+    top: 8px; }
+  to {
+    top: 224px; } }
+.tile.row-0-column-3 {
+  left: 332px;
+  top: 8px; }
+
+.from-column-0-to-3 {
+  animation-name: from-column-0-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-0-to-3 {
+  animation-name: from-row-0-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-0-to-3 {
+  from {
+    left: 8px; }
+  to {
+    left: 332px; } }
+@keyframes from-row-0-to-3 {
+  from {
+    top: 8px; }
+  to {
+    top: 332px; } }
+.tile.row-1-column-0 {
+  left: 8px;
+  top: 116px; }
+
+.from-column-1-to-0 {
+  animation-name: from-column-1-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-1-to-0 {
+  animation-name: from-row-1-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-1-to-0 {
+  from {
+    left: 116px; }
+  to {
+    left: 8px; } }
+@keyframes from-row-1-to-0 {
+  from {
+    top: 116px; }
+  to {
+    top: 8px; } }
+.tile.row-1-column-1 {
+  left: 116px;
+  top: 116px; }
+
+.tile.row-1-column-2 {
+  left: 224px;
+  top: 116px; }
+
+.from-column-1-to-2 {
+  animation-name: from-column-1-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-1-to-2 {
+  animation-name: from-row-1-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-1-to-2 {
+  from {
+    left: 116px; }
+  to {
+    left: 224px; } }
+@keyframes from-row-1-to-2 {
+  from {
+    top: 116px; }
+  to {
+    top: 224px; } }
+.tile.row-1-column-3 {
+  left: 332px;
+  top: 116px; }
+
+.from-column-1-to-3 {
+  animation-name: from-column-1-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-1-to-3 {
+  animation-name: from-row-1-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-1-to-3 {
+  from {
+    left: 116px; }
+  to {
+    left: 332px; } }
+@keyframes from-row-1-to-3 {
+  from {
+    top: 116px; }
+  to {
+    top: 332px; } }
+.tile.row-2-column-0 {
+  left: 8px;
+  top: 224px; }
+
+.from-column-2-to-0 {
+  animation-name: from-column-2-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-2-to-0 {
+  animation-name: from-row-2-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-2-to-0 {
+  from {
+    left: 224px; }
+  to {
+    left: 8px; } }
+@keyframes from-row-2-to-0 {
+  from {
+    top: 224px; }
+  to {
+    top: 8px; } }
+.tile.row-2-column-1 {
+  left: 116px;
+  top: 224px; }
+
+.from-column-2-to-1 {
+  animation-name: from-column-2-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-2-to-1 {
+  animation-name: from-row-2-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-2-to-1 {
+  from {
+    left: 224px; }
+  to {
+    left: 116px; } }
+@keyframes from-row-2-to-1 {
+  from {
+    top: 224px; }
+  to {
+    top: 116px; } }
+.tile.row-2-column-2 {
+  left: 224px;
+  top: 224px; }
+
+.tile.row-2-column-3 {
+  left: 332px;
+  top: 224px; }
+
+.from-column-2-to-3 {
+  animation-name: from-column-2-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-2-to-3 {
+  animation-name: from-row-2-to-3;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-2-to-3 {
+  from {
+    left: 224px; }
+  to {
+    left: 332px; } }
+@keyframes from-row-2-to-3 {
+  from {
+    top: 224px; }
+  to {
+    top: 332px; } }
+.tile.row-3-column-0 {
+  left: 8px;
+  top: 332px; }
+
+.from-column-3-to-0 {
+  animation-name: from-column-3-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-3-to-0 {
+  animation-name: from-row-3-to-0;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-3-to-0 {
+  from {
+    left: 332px; }
+  to {
+    left: 8px; } }
+@keyframes from-row-3-to-0 {
+  from {
+    top: 332px; }
+  to {
+    top: 8px; } }
+.tile.row-3-column-1 {
+  left: 116px;
+  top: 332px; }
+
+.from-column-3-to-1 {
+  animation-name: from-column-3-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-3-to-1 {
+  animation-name: from-row-3-to-1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-3-to-1 {
+  from {
+    left: 332px; }
+  to {
+    left: 116px; } }
+@keyframes from-row-3-to-1 {
+  from {
+    top: 332px; }
+  to {
+    top: 116px; } }
+.tile.row-3-column-2 {
+  left: 224px;
+  top: 332px; }
+
+.from-column-3-to-2 {
+  animation-name: from-column-3-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+.from-row-3-to-2 {
+  animation-name: from-row-3-to-2;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s; }
+
+@keyframes from-column-3-to-2 {
+  from {
+    left: 332px; }
+  to {
+    left: 224px; } }
+@keyframes from-row-3-to-2 {
+  from {
+    top: 332px; }
+  to {
+    top: 224px; } }
+.tile.row-3-column-3 {
+  left: 332px;
+  top: 332px; }
+
+@keyframes new {
+  from {
+    transform: scale(0.1); }
+  to {
+    transform: scale(1); } }
+.new {
+  animation-name: new;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards; }
+
+.merged {
+  animation-name: new;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards; }
+
+.tile-2 {
+  background-color: #eee4da; }
+
+.tile-4 {
+  background-color: #eee1c9; }
+
+.tile-8 {
+  background-color: #f3b27a;
+  color: white; }
+
+.tile-16 {
+  background-color: #f69664;
+  color: white; }
+
+.tile-32 {
+  background-color: #f77c5f;
+  color: white; }
+
+.tile-64 {
+  background-color: #f75f3b;
+  color: white; }
+
+.tile-128 {
+  background-color: #edd073;
+  color: white;
+  font-size: 30px; }
+
+.tile-256 {
+  background-color: #edcc62;
+  color: white;
+  font-size: 30px; }
+
+.tile-512 {
+  background-color: #edc950;
+  color: white;
+  font-size: 30px; }
+
+.tile-1024 {
+  background-color: #edc53f;
+  color: white;
+  font-size: 25px; }
+
+.tile-2048, .tile-4096, .tile-8192, .tile-16384, .tile-32768, .tile-65536 {
+  background-color: #edc22e;
+  color: white;
+  font-size: 25px; }
+
+/*# sourceMappingURL=style.css.map */
