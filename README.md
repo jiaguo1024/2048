@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).  
 This is a practice project.  
-Implement the game 2048 using React and CSS animation with SCSS.
+Implement the game 2048 using React and CSS animation with SCSS.  
+A [demo](https://jiaguo1024.github.io/2048) is available.  
 
 ### How To Run
 `npm start`  
