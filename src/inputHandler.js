@@ -5,24 +5,24 @@ class InputHandler {
 
     constructor(move) {
         this.move = move;
-        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.swipeDetector = new SwipeDetector(this.move);
     }
 
     registerListeners() {
-        document.addEventListener("keyup", this.handleKeyDown)
+        document.addEventListener("keyup", this.handleKeyUp)
         document.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
         document.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
 
     }
 
     removeListeners() {
-        document.removeEventListener("keydown", this.handleKeyDown);
+        document.removeEventListener("keyup", this.handleKeyUp);
         document.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
         document.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
-    handleKeyDown(event) {
+    handleKeyUp(event) {
         switch (event.key) {
             case "ArrowLeft": {
                 this.move(0); break;
