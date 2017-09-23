@@ -1,27 +1,25 @@
 /**
  * Created by Jia on 2017/9/23.
  */
-
-import Hammer from "hammerjs";
-
 class InputHandler {
 
     constructor(move) {
         this.move = move;
         this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleSwipe = this.handleSwipe.bind(this);
-        this.hammer = new Hammer(document);
-        this.hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+        this.swipeDetector = new SwipeDetector(this.move);
     }
 
     registerListeners() {
-        window.addEventListener("keyup", this.handleKeyDown)
-        this.hammer.on('swipeleft swiperight swipeup swipedown', this.handleSwipe);
+        document.addEventListener("keyup", this.handleKeyDown)
+        document.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        document.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
+
     }
 
     removeListeners() {
-        window.removeEventListener("keydown", this.handleKeyDown);
-        this.hammer.off('swipeleft swiperight swipeup swipedown', this.handleSwipe)
+        document.removeEventListener("keydown", this.handleKeyDown);
+        document.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        document.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
     handleKeyDown(event) {
@@ -44,25 +42,43 @@ class InputHandler {
         }
     }
 
-    handleSwipe(event) {
-        switch (event.type) {
-            case "swipeleft": {
-                this.move(0); break;
+}
+
+class SwipeDetector {
+    constructor(move) {
+        this.move = move;
+        this.startX = 0;
+        this.startY = 0;
+        this.threshold = 150; //required min distance traveled to be considered swipe
+        this.restraint = 100; // maximum distance allowed at the same time in perpendicular direction
+        this.allowedTime = 300; // maximum time allowed to travel that distance
+        this.startTime = 0;
+        this.touchStartListener = this.touchStartListener.bind(this);
+        this.touchEndListener = this.touchEndListener.bind(this);
+    }
+
+    touchStartListener(e) {
+        let touchobj = e.changedTouches[0];
+        this.startX = touchobj.pageX;
+        this.startY = touchobj.pageY;
+        this.startTime = new Date().getTime(); // record time when finger first makes contact with surface
+    }
+
+    touchEndListener(e) {
+        let touchobj = e.changedTouches[0];
+        let distX = touchobj.pageX - this.startX; // get horizontal dist traveled by finger while in contact with surface
+        let distY = touchobj.pageY - this.startY; // get vertical dist traveled by finger while in contact with surface
+        let elapsedTime = new Date().getTime() - this.startTime; // get time elapsed
+        if (elapsedTime <= this.allowedTime){ // first condition for a swipe met
+            if (Math.abs(distX) >= this.threshold && Math.abs(distY) <= this.restraint){ // 2nd condition for horizontal swipe met
+                distX < 0 ? this.move(0) : this.move(2); // if dist traveled is negative, it indicates left swipe
             }
-            case "swipeup": {
-                this.move(1); break;
-            }
-            case "swiperight": {
-                this.move(2); break;
-            }
-            case "swipedown": {
-                this.move(3); break;
-            }
-            default: {
-                break;
+            else if (Math.abs(distY) >= this.threshold && Math.abs(distX) <= this.restraint){ // 2nd condition for vertical swipe met
+                distY < 0 ? this.move(1) : this.move(3); // if dist traveled is negative, it indicates up swipe
             }
         }
     }
+
 }
 
 export default InputHandler;
