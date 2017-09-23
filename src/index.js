@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './style.css'
-import {Game} from './components/game';
+import Game from './components/game';
 
 ReactDOM.render(
     <Game />,

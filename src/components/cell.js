@@ -5,7 +5,7 @@ import React from 'react';
 import {Tile} from './tile';
 import {TileInfo} from './tile';
 
-export class Cell extends React.Component {
+class Cell extends React.Component {
     render() {
         let tiles = [this.props.tile];
         if (this.props.tile.merged) {
@@ -24,3 +24,5 @@ export class Cell extends React.Component {
         );
     }
 }
+
+export default Cell;

@@ -3,12 +3,14 @@
  */
 import React from 'react';
 
-export class Button extends React.Component {
+class Button extends React.Component {
     render() {
         return (
-            <button onClick={() => this.props.handleClick(this.props.direction)}>
-                {this.props.value}
+            <button className={this.props.className} onClick={this.props.handleClick}>
+                {this.props.text}
             </button>
         );
     }
 }
+
+export default Button;

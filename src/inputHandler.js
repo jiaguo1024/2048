@@ -1,15 +1,15 @@
 /**
  * Created by Jia on 2017/9/23.
  */
-export class InputHandler {
+class InputHandler {
 
     constructor(move) {
         this.move = move;
         this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
-    registerKeyDownListener() {
-        window.addEventListener("keydown", this.handleKeyDown)
+    registerListeners() {
+        window.addEventListener("keyup", this.handleKeyDown)
     }
 
     handleKeyDown(event) {
@@ -32,7 +32,9 @@ export class InputHandler {
         }
     }
 
-    removeKeyDownListener() {
+    removeListeners() {
         window.removeEventListener("keydown", this.handleKeyDown);
     }
 }
+
+export default InputHandler;

@@ -2,26 +2,27 @@
  * Created by Jia on 2017/8/22.
  */
 import React from 'react';
-import {Board} from './board';
-import {ControlPanel} from './control-panel';
+import Board from './board';
 import {TileInfo} from './tile';
-import {InputHandler} from '../inputHandler';
+import InputHandler from '../inputHandler';
+import Dashboard from './dashboard';
+import Message from './message';
 
-export class Game extends React.Component {
+class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.getInitState();
         this.move = this.move.bind(this);
+        this.restart = this.restart.bind(this);
         this.inputHandler = new InputHandler(this.move);
     }
 
     componentDidMount() {
-        this.inputHandler.registerKeyDownListener();
-
+        this.inputHandler.registerListeners();
     }
 
     componentWillUnmount() {
-        this.inputHandler.removeKeyDownListener();
+        this.inputHandler.removeListeners();
     }
 
     getInitState() {
@@ -54,13 +55,16 @@ export class Game extends React.Component {
         });
     }
 
+    restart() {
+        this.setState(this.getInitState);
+    }
+
     render() {
         return (
             <div className="game">
-                <div>Score: {this.state.score}</div>
-                <div>Game Over: {this.state.gameOver}</div>
-                <ControlPanel move={this.move}/>
+                <Dashboard score={this.state.score} gameOver={this.state.gameOver} restart={this.restart}/>
                 <Board data={this.state.data}/>
+                <Message gameOver={this.state.gameOver}/>
             </div>);
     }
 }
@@ -192,3 +196,5 @@ class MoveInfo {
         this.moved = false;
     }
 }
+
+export default Game;
