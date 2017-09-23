@@ -8,8 +8,6 @@ class Message extends React.Component {
         let message;
         if (this.props.gameOver) {
             message = "Game Over";
-        } else {
-            message = "Swipe Or Press Arrow Keys To Play"
         }
         return (
             <div className="message">{message}</div>
