@@ -10,16 +10,15 @@ class InputHandler {
     }
 
     registerListeners() {
-        document.addEventListener("keyup", this.handleKeyUp)
-        document.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
-        document.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
-
+        window.addEventListener("keyup", this.handleKeyUp)
+        window.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        window.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
     removeListeners() {
-        document.removeEventListener("keyup", this.handleKeyUp);
-        document.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
-        document.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
+        window.removeEventListener("keyup", this.handleKeyUp);
+        window.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        window.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
     handleKeyUp(event) {
@@ -49,8 +48,8 @@ class SwipeDetector {
         this.move = move;
         this.startX = 0;
         this.startY = 0;
-        this.threshold = 150; //required min distance traveled to be considered swipe
-        this.restraint = 100; // maximum distance allowed at the same time in perpendicular direction
+        this.threshold = 100; //required min distance traveled to be considered swipe
+        this.restraint = 300; // maximum distance allowed at the same time in perpendicular direction
         this.allowedTime = 300; // maximum time allowed to travel that distance
         this.startTime = 0;
         this.touchStartListener = this.touchStartListener.bind(this);

@@ -1,10 +1,9 @@
-html {
-  overflow: hidden; }
-
 body {
   background-color: blanchedalmond;
   font-family: Arial, Helvetica, sans-serif;
-  position: relative; }
+  position: fixed;
+  width: 100%;
+  margin: 0; }
 
 .game {
   margin-left: auto;
@@ -424,19 +423,19 @@ body {
     transform: scale(1); } }
 .new {
   animation-name: new;
-  animation-duration: 0.4s;
+  animation-duration: 0.3s;
   animation-fill-mode: forwards; }
 
 @keyframes merged {
   0% {
     transform: scale(0); }
   60% {
-    transform: scale(1.1); }
+    transform: scale(1.3); }
   100% {
     transform: scale(1); } }
 .merged {
   animation-name: merged;
-  animation-duration: 0.2s;
+  animation-duration: 0.3s;
   animation-fill-mode: forwards; }
 
 .tile-2 {
