@@ -82,11 +82,15 @@ body {
   border: none;
   border-radius: 10px;
   color: white;
-  background-color: #f69664;
+  background-color: #f77c5f;
   cursor: pointer;
   font-size: 20px;
   outline: none;
   font-weight: bold;
+}
+
+.btn-restart:active {
+  background-color: #f69664;
 }
 
 .board {
