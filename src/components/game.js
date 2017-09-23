@@ -5,12 +5,23 @@ import React from 'react';
 import {Board} from './board';
 import {ControlPanel} from './control-panel';
 import {TileInfo} from './tile';
+import {InputHandler} from '../inputHandler';
 
 export class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.getInitState();
         this.move = this.move.bind(this);
+        this.inputHandler = new InputHandler(this.move);
+    }
+
+    componentDidMount() {
+        this.inputHandler.registerKeyDownListener();
+
+    }
+
+    componentWillUnmount() {
+        this.inputHandler.removeKeyDownListener();
     }
 
     getInitState() {
