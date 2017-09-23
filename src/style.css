@@ -1,5 +1,6 @@
 body {
-  background-color: blanchedalmond; }
+  background-color: blanchedalmond;
+  font-family: Arial, Helvetica, sans-serif; }
 
 .game {
   margin-left: auto;
@@ -10,7 +11,6 @@ body {
   width: 100%;
   height: 150px;
   padding-top: 30px;
-  padding-bottom: 30px;
   position: relative; }
 
 .left {
@@ -490,7 +490,8 @@ body {
 .message {
   position: relative;
   text-align: center;
-  top: 325px;
-  font-weight: bold; }
+  font-weight: bold;
+  font-size: 30px;
+  padding-bottom: 10px; }
 
 /*# sourceMappingURL=style.css.map */

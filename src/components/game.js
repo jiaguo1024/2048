@@ -63,8 +63,8 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <Dashboard score={this.state.score} gameOver={this.state.gameOver} restart={this.restart}/>
-                <Board data={this.state.data}/>
                 <Message gameOver={this.state.gameOver}/>
+                <Board data={this.state.data}/>
             </div>);
     }
 }
