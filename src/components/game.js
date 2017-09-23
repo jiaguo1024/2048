@@ -9,58 +9,79 @@ import {TileInfo} from './tile';
 export class Game extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: initData(4, 4)};
+        this.state = this.getInitState();
         this.move = this.move.bind(this);
+    }
+
+    getInitState() {
+        return {
+            data: initData(4, 4),
+            score: 0,
+            gameOver: false
+        };
     }
 
     move(direction) {
         let data = this.state.data.slice();
-        data = merge(data, direction);
-        this.postProcessing(data);
-    }
-
-    findEmptyCell(data) { // return list of index pairs [[i, j], [m, n]]
-        let result = [];
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[0].length; j++) {
-                if (data[i][j].value === 0) { result.push([i, j]); }
-            }
+        let moveInfo = new MoveInfo();
+        data = merge(data, direction, moveInfo);
+        if (!moveInfo.moved) return;
+        let gameOver = false;
+        let movable = true;
+        let slots = findEmptyCell(data);
+        if (slots.length > 0) addTile(slots, data);
+        if (slots.length <= 1) {
+            movable = checkMovable(data);
         }
-        return result;
-    }
-
-    postProcessing(data) {
-        let slots = this.findEmptyCell(data);
-        if (this.hasChanged(data) && slots.length > 0) {
-            this.addTile(slots, data);
-        } else {
-            // TODO: board is full, check game over
-
+        if (!movable) {
+            gameOver = true;
         }
-        this.setState({data: data});
-    }
-
-    hasChanged(data) {
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[0].length; j++) {
-                if (data[i][j] !== this.state.data[i][j]) { return true; }
-            }
-        }
-        return false;
-    }
-
-    addTile(index, data) {
-        let [i, j] = index[Math.floor(Math.random() * index.length)];
-        addNewTile(data, i, j);
+        this.setState({
+            data: data,
+            score: this.state.score + moveInfo.score,
+            gameOver: gameOver
+        });
     }
 
     render() {
         return (
             <div className="game">
+                <div>Score: {this.state.score}</div>
+                <div>Game Over: {this.state.gameOver}</div>
                 <ControlPanel move={this.move}/>
                 <Board data={this.state.data}/>
             </div>);
     }
+}
+
+function findEmptyCell(data) { // return list of index pairs [[i, j], [m, n]]
+    let result = [];
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[0].length; j++) {
+            if (data[i][j].value === 0) { result.push([i, j]); }
+        }
+    }
+    return result;
+}
+
+// precondition: all cells are full, no zeros
+function checkMovable(data) {
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[0].length; j++) {
+            if (i > 0 && data[i][j].value === data[i-1][j].value) {
+                return true;
+            }
+            if (j > 0 && data[i][j].value === data[i][j-1].value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function addTile(index, data) {
+    let [i, j] = index[Math.floor(Math.random() * index.length)];
+    addNewTile(data, i, j);
 }
 
 function addNewTile(data, row, column) {
@@ -84,13 +105,13 @@ function initData(rows, columns) {
     return data;
 }
 
-function merge(data, direction) {
+function merge(data, direction, moveInfo) {
     // direction: 0-left, 1-up, 2-right, 3-down
     let result = data;
     for (let i = 0; i < direction; i++) {
         result = rotateLeft(result);
     }
-    mergeLeft(result);
+    mergeLeft(result, moveInfo);
     for (let i = direction; i < 4; i++) {
         result = rotateLeft(result);
     }
@@ -107,11 +128,14 @@ function rotateLeft(data) {
     return result;
 }
 
-function mergeLeft(data) {
-    for (let i = 0; i < data.length; i++) { mergeRowLeft(data[i]); }
+function mergeLeft(data, moveInfo) {
+    for (let i = 0; i < data.length; i++) {
+        mergeRowLeft(data[i], moveInfo);
+    }
 }
 
-function mergeRowLeft(row) {
+// merge left one row in place, only modify attributes, no swapping/new/remove object
+function mergeRowLeft(row, moveInfo) {
     for (let i = 0; i < row.length; i++) {
         row[i].clear();
         if (row[i].value === 0) continue;
@@ -125,6 +149,7 @@ function mergeRowLeft(row) {
             row[0].rowFrom = row[i].row;
             row[0].columnFrom = row[i].column;
             row[i].value = 0;
+            moveInfo.moved = true;
         }
         else { // reached a tile
             // merge
@@ -135,14 +160,24 @@ function mergeRowLeft(row) {
                 row[j].rowFrom = row[i].row;
                 row[j].columnFrom = row[i].column;
                 row[i].value = 0;
+                moveInfo.score += row[j].value;
+                moveInfo.moved = true;
             } else {
                 if (j++ !== i - 1) { // move to j
                     row[j].value = row[i].value;
                     row[j].rowFrom = row[i].row;
                     row[j].columnFrom = row[i].column;
                     row[i].value = 0;
+                    moveInfo.moved = true;
                 }
             }
         }
+    }
+}
+
+class MoveInfo {
+    constructor() {
+        this.score = 0;
+        this.moved = false;
     }
 }
