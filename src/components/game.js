@@ -18,11 +18,11 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        this.inputHandler.registerListeners();
+        this.inputHandler.registerListeners(document.getElementsByClassName("board")[0]);
     }
 
     componentWillUnmount() {
-        this.inputHandler.removeListeners();
+        this.inputHandler.removeListeners(document.getElementsByClassName("board")[0]);
     }
 
     getInitState() {

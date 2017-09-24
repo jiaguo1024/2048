@@ -9,16 +9,16 @@ class InputHandler {
         this.swipeDetector = new SwipeDetector(this.move);
     }
 
-    registerListeners() {
+    registerListeners(ele) {
         window.addEventListener("keyup", this.handleKeyUp)
-        window.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
-        window.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
+        ele.addEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        ele.addEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
-    removeListeners() {
+    removeListeners(ele) {
         window.removeEventListener("keyup", this.handleKeyUp);
-        window.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
-        window.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
+        ele.removeEventListener('touchstart', this.swipeDetector.touchStartListener, false);
+        ele.removeEventListener('touchend', this.swipeDetector.touchEndListener, false);
     }
 
     handleKeyUp(event) {
