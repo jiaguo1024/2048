@@ -25,12 +25,16 @@ class Game extends React.Component {
         this.inputHandler.removeListeners(document.getElementsByClassName("board")[0]);
     }
 
-    getInitState() {
-        return {
+    getInitState(restart) {
+        let state = {
             data: initData(4, 4),
             score: 0,
             gameOver: false
         };
+        if (restart) return state;
+        let cache = localStorage.getItem("state");
+        if (cache) return JSON.parse(cache);
+        return state;
     }
 
     move(direction) {
@@ -53,10 +57,11 @@ class Game extends React.Component {
             score: this.state.score + moveInfo.score,
             gameOver: gameOver
         });
+        localStorage.setItem("state", JSON.stringify(this.state));
     }
 
     restart() {
-        this.setState(this.getInitState);
+        this.setState(this.getInitState(true));
     }
 
     render() {
@@ -152,7 +157,7 @@ function mergeLeft(data, moveInfo) {
 // merge left one row in place, only modify attributes, no swapping/new/remove object
 function mergeRowLeft(row, moveInfo) {
     for (let i = 0; i < row.length; i++) {
-        row[i].clear();
+        TileInfo.clear(row[i]);
         if (row[i].value === 0) continue;
         let j = i - 1;
         while (j >= 0 && row[j].value === 0) { // stop if reach bound or reach a tile

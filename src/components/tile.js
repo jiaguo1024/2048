@@ -55,10 +55,10 @@ export class TileInfo {
         return result;
     }
 
-    clear() {
-        this.rowFrom = -1;
-        this.columnFrom = -1;
-        this.new = false;
-        this.merged = false;
+    static clear(tile) {
+        tile.rowFrom = -1;
+        tile.columnFrom = -1;
+        tile.new = false;
+        tile.merged = false;
     }
 }
