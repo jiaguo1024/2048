@@ -57,6 +57,7 @@ class SwipeDetector {
     }
 
     touchStartListener(e) {
+        e.preventDefault();
         let touchobj = e.changedTouches[0];
         this.startX = touchobj.pageX;
         this.startY = touchobj.pageY;

@@ -33,7 +33,11 @@ class Game extends React.Component {
         };
         if (restart) return state;
         let cache = localStorage.getItem("state");
-        if (cache) return JSON.parse(cache);
+        if (cache) {
+            cache = JSON.parse(cache);
+            setDataAsNew(cache.data);
+            return cache;
+        }
         return state;
     }
 
@@ -122,6 +126,17 @@ function initData(rows, columns) {
     }
     addNewTile(data, Math.floor(x/rows), x%columns);
     addNewTile(data, Math.floor(y/rows), y%columns);
+    return data;
+}
+
+function setDataAsNew(data) {
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[0].length; j++) {
+            data[i][j].new = true;
+            data[i][j].rowFrom = -1;
+            data[i][j].columnFrom = -1;
+        }
+    }
     return data;
 }
 
